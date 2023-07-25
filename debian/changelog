@@ -1,3 +1,9 @@
+ninja-build (1.11.1-1deepin) unstable; urgency=medium
+
+  * Apply github/pull/2203 to support 32bit system like i386.
+
+ -- Tianyu Chen <sweetyfish@deepin.org>  Tue, 25 Jul 2023 11:14:03 +0800
+
 ninja-build (1.11.1-1) unstable; urgency=medium
 
   * New upstream release.
