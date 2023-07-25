@@ -1,3 +1,26 @@
+ninja-build (1.11.1-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Felix Geyer <fgeyer@debian.org>  Fri, 02 Sep 2022 12:31:31 +0200
+
+ninja-build (1.11.0-1) unstable; urgency=medium
+
+  [ Felix Geyer ]
+  * New upstream release.
+
+  [ Debian Janitor ]
+  * Trim trailing whitespace.
+  * Update watch file format version to 4.
+  * Bump debhelper from old 12 to 13.
+    + Drop check for DEB_BUILD_OPTIONS containing "nocheck", since debhelper now
+      does this.
+  * Set upstream metadata fields: Bug-Database, Bug-Submit, Repository,
+    Repository-Browse.
+  * Avoid explicitly specifying -Wl,--as-needed linker flag.
+
+ -- Felix Geyer <fgeyer@debian.org>  Mon, 23 May 2022 21:56:20 +0200
+
 ninja-build (1.10.1-1) unstable; urgency=medium
 
   * New upstream release.
@@ -188,4 +211,3 @@ ninja-build (1.0.0-1) unstable; urgency=low
   * Initial release. (Closes: #683333)
 
  -- Gary Kramlich <grim@reaperworld.com>  Mon, 17 Sep 2012 02:06:29 -0500
-
