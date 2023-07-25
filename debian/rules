@@ -2,7 +2,6 @@
 
 export DEB_CFLAGS_MAINT_APPEND=$(shell dpkg-buildflags --get CPPFLAGS)
 export DEB_CXXFLAGS_MAINT_APPEND=$(shell dpkg-buildflags --get CPPFLAGS)
-export DEB_LDFLAGS_MAINT_APPEND=-Wl,--as-needed
 
 %:
 	dh $@
@@ -20,11 +19,9 @@ ifeq (,$(filter nodoc,$(DEB_BUILD_PROFILES)))
 endif
 
 override_dh_auto_test:
-ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
 	# Deliberately ignore errors from ulimit.
 	# It allows more tests to run but some archs/buildds have a lower hard limit.
 	sh -c "ulimit -n 2000; ./ninja_test"
-endif
 
 override_dh_auto_install:
 	# noop
