@@ -1,19 +1,19 @@
 #!/usr/bin/make -f
 
-export DEB_CFLAGS_MAINT_APPEND=$(shell dpkg-buildflags --get CPPFLAGS)
-export DEB_CXXFLAGS_MAINT_APPEND=$(shell dpkg-buildflags --get CPPFLAGS)
-
 %:
-	dh $@
+	dh $@ --builddirectory=build
 
 override_dh_auto_configure:
-	python3 ./configure.py --bootstrap --verbose
+	# upstream enables LTO only for the "Release" build type but Debian
+	# uses the custom "None" type, so enable LTO here for all types
+	dh_auto_configure -- -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON -DNINJA_PYTHON=python3
 
-override_dh_auto_build:
-	./ninja -v all
 ifeq (,$(filter nodoc,$(DEB_BUILD_PROFILES)))
-	./ninja -v manual
-	help2man --include=debian/ninja.1.in --output=build/ninja.1.org --no-info --no-discard-stderr ./ninja
+execute_after_dh_auto_build:
+	# create build.ninja file with the "manual" target
+	./configure.py
+	build/ninja -v manual
+	help2man --include=debian/ninja.1.in --output=build/ninja.1.org --no-info --no-discard-stderr build/ninja
 	sed 's/\(default=\)[0-9]\+ on this system/\1\#CPUs/' build/ninja.1.org > build/ninja.1
 	if cmp --silent build/ninja.1.org build/ninja.1; then echo "sed pattern not found"; exit 1; fi
 endif
@@ -21,21 +21,7 @@ endif
 override_dh_auto_test:
 	# Deliberately ignore errors from ulimit.
 	# It allows more tests to run but some archs/buildds have a lower hard limit.
-	sh -c "ulimit -n 2000; ./ninja_test"
-
-override_dh_auto_install:
-	# noop
-
-override_dh_auto_clean:
-	# noop
-
-override_dh_clean:
-	dh_clean
-	test -x ninja && ./ninja -t clean || true
-	find -type f -iname "*.pyc" | xargs rm -f
-	rm -f null.o
-	rm -f build.ninja
-	rm -rf build
+	sh -c "ulimit -n 2000; build/ninja_test"
 
 override_dh_install-arch:
 	dh_install
