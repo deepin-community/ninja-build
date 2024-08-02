@@ -1,8 +1,18 @@
-ninja-build (1.11.1-1deepin) unstable; urgency=medium
+ninja-build (1.12.1-1) unstable; urgency=medium
 
-  * Apply github/pull/2203 to support 32bit system like i386.
+  * New upstream release.
+  * Drop support_32bit_system_like_i386.patch, applied upstream.
+  * Build using cmake instead of using upstream's bootstrapping script.
+    It doesn't support building the unit tests anymore.
 
- -- Tianyu Chen <sweetyfish@deepin.org>  Tue, 25 Jul 2023 11:14:03 +0800
+ -- Felix Geyer <fgeyer@debian.org>  Sun, 12 May 2024 11:17:01 +0200
+
+ninja-build (1.11.1-2) unstable; urgency=medium
+
+  * Support large inode numbers on 32-bit systems. (Closes: #1041897)
+    - Cherry-pick upstream commit as support_32bit_system_like_i386.patch
+
+ -- Felix Geyer <fgeyer@debian.org>  Sun, 03 Sep 2023 16:34:04 +0200
 
 ninja-build (1.11.1-1) unstable; urgency=medium
 
